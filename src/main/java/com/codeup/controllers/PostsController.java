@@ -2,6 +2,7 @@ package com.codeup.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,8 +21,8 @@ public class PostsController {
 
     @GetMapping("/posts/{id}")
     @ResponseBody
-    public String postsWithId() {
-        return "View an individual post";
+    public String postsWithId(@PathVariable long id) {
+        return "View an individual post with " + id;
     }
 
     @GetMapping("/posts/create")
