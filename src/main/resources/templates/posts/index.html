@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Index</title>
+</head>
+<body>
+    <!--<div class="navbar" th:include="fragments/navbar :: newNavbar">-->
+        <!--This is inside content-->
+    <!--</div>-->
+
+<h1>SHOW ONE POST</h1>
+<p th:each="post : ${posts}">
+    <h1 style="text-align: center"><span th:text="${post.blogPostTitle}"/></h1>
+    <h2 style="text-align: center"><span th:text="${post.blogPostContent}"/></h2>
+</p>
+</body>
+</html>

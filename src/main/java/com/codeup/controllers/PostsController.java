@@ -1,10 +1,14 @@
 package com.codeup.controllers;
 
+import com.codeup.models.Post;
+import com.codeup.services.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Irby on 2/7/17.
@@ -13,27 +17,48 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class PostsController {
 
+    @Autowired
+    PostService postService;
+
     @GetMapping("/posts")
-    @ResponseBody
-    public String posts() {
-        return "Posts index page";
+    public String viewAllPosts(Model viewModel) {
+        // array list with several Post objects
+        List<Post> posts = new ArrayList<>();
+
+//        posts.add(new Post("My first post", "body of the first post"));
+//        posts.add(new Post("My second post", "body of the second post, so good"));
+
+        // pass the list to the view (through a view model)
+        viewModel.addAttribute("posts", posts);
+        return "posts/index"; // should return models/index.html
     }
 
     @GetMapping("/posts/{id}")
-    @ResponseBody
-    public String postsWithId(@PathVariable long id) {
-        return "View an individual post with " + id;
+    public String viewSinglePost(@PathVariable long id, Model viewModel) {
+        // Inside the method that shows an individual post, create a new post object and pass it to the view
+        Post post = new Post("Hello World", "World Body");
+        // Pass the Post to the view (through a view model))
+        viewModel.addAttribute("post", post);
+        return "/posts/show"; // show.html
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String editSinglePost(@ModelAttribute Post post, Model viewModel) {
+        viewModel.addAttribute("Message", "");
+        return "posts/edit";
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String postsFormView() {
-        return "View the form for creating a post";
+    public String postsFormView(Model viewModel) {
+
+        viewModel.addAttribute("post", new Post());
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String postsCreateNew() {
-        return "Create a new post";
+    public String postsCreateNew(@ModelAttribute Post post, Model viewModel) {
+        return "Create a new Post";
     }
 }
+
+
